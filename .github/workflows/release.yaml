@@ -1,0 +1,18 @@
+name: Create Alfred Workflow
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Builder Alfred Workflow file
+      run: zip -r ${{ github.event.repository.name }}.alfredworkflow . -x ".git/*" ".github/*" ".gitignore" "*.pyc" "*__pycache__/*"
+    - name: Upload Alfred Workflow
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ github.event.repository.name }}.alfredworkflow
